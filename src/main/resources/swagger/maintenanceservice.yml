@@ -1,0 +1,63 @@
+openapi: 3.0.3
+info:
+  title: Maintenance Service API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8083
+
+paths:
+  /api/maintenance:
+    post:
+      summary: Schedule maintenance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceRequest'
+      responses:
+        '201':
+          description: Maintenance scheduled
+
+  /api/maintenance/{id}/start:
+    put:
+      summary: Start maintenance
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Maintenance started
+
+  /api/maintenance/{id}/complete:
+    put:
+      summary: Complete maintenance
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Maintenance completed
+
+components:
+  schemas:
+    MaintenanceRequest:
+      type: object
+      properties:
+        aircraftId:
+          type: string
+          format: uuid
+        description:
+          type: string
+        scheduledDate:
+          type: string
+          format: date

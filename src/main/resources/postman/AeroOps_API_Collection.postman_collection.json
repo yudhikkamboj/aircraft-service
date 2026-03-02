@@ -1,0 +1,239 @@
+{
+	"info": {
+		"name": "AeroOps API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Aircraft Service",
+			"item": [
+				{
+					"name": "Create Aircraft",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tailNumber\": \"N12345\",\n  \"model\": \"Boeing 737\",\n  \"manufacturer\": \"Boeing\",\n  \"maxRangeKm\": 5000,\n  \"capacity\": 180,\n  \"inductedOn\": \"2024-01-15\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/aircraft",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["api", "aircraft"]
+						}
+					}
+				},
+				{
+					"name": "Get Aircraft by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/aircraft/{{aircraftId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["api", "aircraft", "{{aircraftId}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Aircraft Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"MAINTENANCE\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/aircraft/{{aircraftId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["api", "aircraft", "{{aircraftId}}"]
+						}
+					}
+				},
+				{
+					"name": "Get Available Aircraft",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/aircraft/available",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["api", "aircraft", "available"]
+						}
+					}
+				},
+				{
+					"name": "Simulate Failure",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/aircraft/simulate/failure?rate=50",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["api", "aircraft", "simulate", "failure"],
+							"query": [
+								{
+									"key": "rate",
+									"value": "50"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Flight Service",
+			"item": [
+				{
+					"name": "Schedule Flight",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"flightNumber\": \"AA101\",\n  \"origin\": \"JFK\",\n  \"destination\": \"LAX\",\n  \"departureTime\": \"2024-02-01T10:00:00Z\",\n  \"arrivalTime\": \"2024-02-01T14:00:00Z\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/flights/schedule",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8082",
+							"path": ["api", "flights", "schedule"]
+						}
+					}
+				},
+				{
+					"name": "Get Flight by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/flights/{{flightId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8082",
+							"path": ["api", "flights", "{{flightId}}"]
+						}
+					}
+				},
+				{
+					"name": "List Flights by Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/flights?status=SCHEDULED",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8082",
+							"path": ["api", "flights"],
+							"query": [
+								{
+									"key": "status",
+									"value": "SCHEDULED"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Maintenance Service",
+			"item": [
+				{
+					"name": "Schedule Maintenance",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"aircraftId\": \"{{aircraftId}}\",\n  \"description\": \"Routine maintenance check\",\n  \"scheduledDate\": \"2024-02-15\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8083/api/maintenance",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8083",
+							"path": ["api", "maintenance"]
+						}
+					}
+				},
+				{
+					"name": "Start Maintenance",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8083/api/maintenance/{{maintenanceId}}/start",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8083",
+							"path": ["api", "maintenance", "{{maintenanceId}}", "start"]
+						}
+					}
+				},
+				{
+					"name": "Complete Maintenance",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8083/api/maintenance/{{maintenanceId}}/complete",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8083",
+							"path": ["api", "maintenance", "{{maintenanceId}}", "complete"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "aircraftId",
+			"value": ""
+		},
+		{
+			"key": "flightId",
+			"value": ""
+		},
+		{
+			"key": "maintenanceId",
+			"value": ""
+		}
+	]
+}

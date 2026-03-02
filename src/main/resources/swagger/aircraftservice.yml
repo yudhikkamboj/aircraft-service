@@ -1,0 +1,122 @@
+openapi: 3.0.3
+info:
+  title: Aircraft Service API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8081
+
+paths:
+  /api/aircraft:
+    post:
+      summary: Create aircraft
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AircraftRequest'
+      responses:
+        '201':
+          description: Aircraft created
+
+  /api/aircraft/{id}:
+    get:
+      summary: Get aircraft by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Aircraft details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AircraftResponse'
+
+    put:
+      summary: Update aircraft status
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AircraftStatusUpdate'
+      responses:
+        '200':
+          description: Status updated
+
+  /api/aircraft/available:
+    get:
+      summary: Get available aircraft
+      responses:
+        '200':
+          description: List of available aircraft
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AircraftResponse'
+
+  /api/aircraft/simulate/failure:
+    post:
+      summary: Simulate failure rate
+      parameters:
+        - in: query
+          name: rate
+          required: true
+          schema:
+            type: integer
+
+components:
+  schemas:
+    AircraftRequest:
+      type: object
+      properties:
+        tailNumber:
+          type: string
+        model:
+          type: string
+        manufacturer:
+          type: string
+        maxRangeKm:
+          type: integer
+        capacity:
+          type: integer
+        inductedOn:
+          type: string
+          format: date
+
+    AircraftResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tailNumber:
+          type: string
+        model:
+          type: string
+        manufacturer:
+          type: string
+        status:
+          type: string
+
+    AircraftStatusUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [AVAILABLE, MAINTENANCE, IN_FLIGHT, RETIRED]

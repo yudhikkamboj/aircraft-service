@@ -1,0 +1,88 @@
+openapi: 3.0.3
+info:
+  title: Flight Service API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8082
+
+paths:
+  /api/flights/schedule:
+    post:
+      summary: Schedule flight with aircraft allocation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlightScheduleRequest'
+      responses:
+        '201':
+          description: Flight scheduled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlightResponse'
+
+  /api/flights/{id}:
+    get:
+      summary: Get flight by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Flight details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlightResponse'
+
+  /api/flights:
+    get:
+      summary: List flights by status
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Flight list
+
+components:
+  schemas:
+    FlightScheduleRequest:
+      type: object
+      properties:
+        flightNumber:
+          type: string
+        origin:
+          type: string
+        destination:
+          type: string
+        departureTime:
+          type: string
+          format: date-time
+        arrivalTime:
+          type: string
+          format: date-time
+
+    FlightResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        flightNumber:
+          type: string
+        aircraftId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [SCHEDULED, PENDING_ALLOCATION, CANCELLED, COMPLETED]
