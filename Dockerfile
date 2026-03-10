@@ -1,4 +1,7 @@
-FROM ubuntu:latest
-LABEL authors="yudhi"
+#Runtime stage
+FROM eclipse-temurin:21-jre
+WORKDIR /app
 
-ENTRYPOINT ["top", "-b"]
+COPY target/aircraft-service*.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
