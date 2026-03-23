@@ -4,7 +4,9 @@ import com.aeroops.aircraft.dto.AircraftRequest;
 import com.aeroops.aircraft.dto.AircraftResponse;
 import com.aeroops.aircraft.dto.AircraftStatusUpdate;
 import com.aeroops.aircraft.service.AircraftService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +17,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/aircraft")
 @Slf4j
+@AllArgsConstructor
 public class AircraftController {
 
     private final AircraftService aircraftService;
-
-    public AircraftController(AircraftService aircraftService) {
-        this.aircraftService = aircraftService;
-    }
+    private final Environment environment;
 
     @PostMapping
     public ResponseEntity<Void> createAircraft(@RequestBody AircraftRequest request) {
@@ -32,6 +32,7 @@ public class AircraftController {
     @GetMapping("/{id}")
     public ResponseEntity<AircraftResponse> getAircraftById(@PathVariable UUID id) {
         log.info("Fetching aircraft with id: {}", id);
+        log.info("value of env zipkin: {}", environment.getProperty("management.zipkin.tracing.endpoint"));
         return ResponseEntity.ok(aircraftService.getAircraftById(id));
     }
 
