@@ -4,8 +4,8 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/aircraft_db?currentSchema=aircraft
-    url: jdbc:postgresql://host.docker.internal:5432/aircraft_db?currentSchema=aircraft
+    url: jdbc:postgresql://localhost:5432/aircraft_db?currentSchema=aircraft
+#    url: jdbc:postgresql://host.docker.internal:5432/aircraft_db?currentSchema=aircraft
     username: postgres
     password: postgres
 
